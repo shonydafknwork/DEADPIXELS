@@ -1,0 +1,152 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEAD PIXELS</title><meta name="description" content="Independent music. Underground culture. No clean signals.">
+<link rel="icon" href="favicon.png"><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+:root{--v:#2a0040;--p:#660099;--b:#550000;--g:#b44dff;--i:#f1defc}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--v);color:var(--i);font:22px/1.25 'VT323',monospace;overflow-x:hidden;animation:fl 9s infinite}
+img,canvas{image-rendering:pixelated}a{color:inherit}
+.px{font-family:'Press Start 2P',monospace;line-height:1.7}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px)}
+.grain{position:fixed;inset:-50%;pointer-events:none;z-index:89;opacity:.13;animation:gr .7s steps(4) infinite;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,nav,footer{position:relative;z-index:2}
+#bar{position:fixed;top:0;left:0;height:5px;background:var(--g);z-index:95;width:0;transition:width .15s steps(3)}
+nav{position:fixed;top:5px;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:rgba(42,0,64,.88);border-bottom:3px solid var(--p);backdrop-filter:blur(3px)}
+nav img{height:34px}nav div{display:flex;gap:18px}nav a{text-decoration:none;font-size:20px}nav a:hover{color:var(--g)}
+.btn{display:inline-block;cursor:pointer;border:3px solid var(--g);background:var(--p);color:var(--i);padding:10px 20px;font:inherit;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:transform .08s steps(2),box-shadow .08s steps(2)}
+.btn:hover{transform:translate(-4px,-4px);box-shadow:6px 6px 0 var(--b)}.btn:active{transform:none;box-shadow:none}.btn.o{background:transparent}.btn:disabled{opacity:.4}
+section{padding:90px 16px;max-width:1100px;margin:auto}
+h2{font-size:18px;margin-bottom:36px;color:var(--g)}
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;padding:90px 16px 40px;max-width:none}
+#lg{width:min(80vw,560px);height:auto;transition:transform .1s steps(2)}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0;overflow:hidden}
+.glitch::before{color:var(--g);left:3px;clip-path:inset(0 0 60% 0);animation:gl 2.4s steps(2) infinite}
+.glitch::after{color:#a00;left:-3px;clip-path:inset(55% 0 0 0);animation:gl 1.9s steps(2) infinite reverse}
+h1{font-size:clamp(16px,4.2vw,38px)}.sub{font-size:26px;max-width:620px}
+.mq{overflow:hidden;border-block:3px solid var(--p);background:var(--b);padding:10px 0;white-space:nowrap;position:relative;z-index:2}
+.mq div{display:inline-block;animation:mq 22s linear infinite;font-size:14px}.mq:hover div{animation-play-state:paused}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .5s steps(5),transform .5s steps(5)}.rv.in{opacity:1;transform:none}
+.about{text-align:center;padding:130px 16px;max-width:none;background:rgba(85,0,0,.45)}.about p.px{font-size:clamp(14px,3vw,26px);max-width:900px;margin:auto}.about b{color:var(--g)}
+.grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.card{border:3px solid var(--p);background:var(--v);cursor:pointer;transition:transform .08s steps(2),box-shadow .08s steps(2)}
+.card:hover{transform:translate(-5px,-5px);box-shadow:8px 8px 0 var(--b)}
+.pst{aspect-ratio:3/4;position:relative;background:repeating-conic-gradient(#330050 0 25%,var(--v) 0 50%) 0 0/20px 20px;overflow:hidden}
+.pst img{width:100%;height:100%;object-fit:cover;display:block}.pst .n{position:absolute;left:0;top:0;background:var(--b);padding:6px 10px;font-size:11px}
+.pst .so{position:absolute;inset:auto 0 0;background:var(--b);text-align:center;padding:8px;font-size:11px}
+.card .in{padding:14px}.card h3{font-size:12px;margin-bottom:8px}.g{color:var(--g)}.sm{opacity:.75;font-size:19px}
+.empty{border:3px dashed var(--p);padding:70px 16px;text-align:center;font-size:clamp(13px,3vw,22px)}
+.steps{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.step{border:3px solid var(--p);padding:22px}.step span{font-size:30px;color:var(--g)}
+.step h3{font-size:12px;margin:12px 0}
+.links{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+footer{overflow:hidden;border-top:3px solid var(--p);padding:30px 16px 20px;text-align:center}.big{font-size:clamp(24px,9vw,110px);color:var(--p);white-space:nowrap}
+.field{width:100%;background:var(--v);border:3px solid var(--p);color:var(--i);padding:8px 10px;font:inherit;margin-top:10px}.field:focus{outline:0;border-color:var(--g)}
+.er{color:var(--g);font-size:18px}
+#md{position:fixed;inset:0;z-index:70;background:rgba(42,0,64,.96);overflow:auto;display:none;padding:70px 16px 40px}#md.on{display:block}
+.mi{max-width:960px;margin:auto;display:grid;gap:28px;grid-template-columns:1fr}@media(min-width:760px){.mi{grid-template-columns:1fr 1fr}}
+.tk{display:flex;justify-content:space-between;gap:8px;border:3px solid var(--p);padding:8px;margin-top:8px;cursor:pointer}.tk.sel{border-color:var(--g)}
+#x{position:fixed;top:18px;right:18px;z-index:75;display:none}#md.on~#x{display:block}
+#wipe{position:fixed;inset:0;z-index:98;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(8,1fr);pointer-events:none}
+#wipe i{background:var(--p);opacity:0;transition:opacity .01s}#wipe.on i{opacity:1}
+#ld{position:fixed;inset:0;z-index:99;background:var(--v);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-size:11px}
+#ld .bb{width:min(70vw,300px);height:16px;border:3px solid var(--p)}#ld .bb i{display:block;height:100%;background:var(--g);width:0}
+#cu{position:fixed;top:0;left:0;width:16px;height:16px;background:var(--g);mix-blend-mode:difference;z-index:100;pointer-events:none;display:none}
+.sq{position:fixed;width:8px;height:8px;background:var(--g);z-index:99;pointer-events:none;animation:sq .5s steps(5) forwards}
+#tl{position:fixed;left:0;right:0;height:6px;background:var(--g);z-index:91;display:none;mix-blend-mode:difference}
+body.tear main{animation:te .16s steps(2)}body.tear #tl{display:block}
+@keyframes sq{to{opacity:0;transform:scale(.2)}}@keyframes te{0%{transform:translateX(8px) skewX(3deg)}100%{transform:translateX(-6px)}}
+@keyframes mq{to{transform:translateX(-50%)}}@keyframes gl{0%,90%{transform:translate(0)}92%{transform:translate(-5px,2px)}95%{transform:translate(5px,-2px)}}
+@keyframes gr{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}@keyframes fl{0%,96%,100%{opacity:1}97%{opacity:.85}99%{opacity:.9}}
+@media(pointer:fine){#cu{display:block}}@media(max-width:560px){nav div{gap:10px}nav a{font-size:17px}}
+@media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style></head><body>
+<div id="ld"><p class="px">BOOTING DEAD_PIXELS.SYS</p><div class="bb"><i></i></div></div>
+<div id="bar"></div><div class="grain"></div><canvas id="fx"></canvas><div id="cu"></div><div id="tl"></div><div id="wipe"></div>
+<nav><a href="#top" data-go="#top"><img src="logo.png" alt="DEAD PIXELS"></a><div><a href="#events" data-go="#events">EVENTS</a><a href="#about" data-go="#about">ABOUT</a><a href="#contact" data-go="#contact">CONTACT</a></div></nav>
+<main id="top">
+<header class="hero"><canvas id="lg"></canvas>
+<h1 class="px glitch" data-text="PIXELS DIED FOR THIS.">PIXELS DIED FOR THIS.</h1>
+<p class="sub">Independent music. Underground culture. No clean signals.</p>
+<div><a class="btn" href="#events" data-go="#events">EXPLORE EVENTS</a> <a class="btn o" href="#contact" data-go="#contact">JOIN THE FREQUENCY</a></div>
+<p class="px g" style="font-size:10px">SCROLL v</p></header>
+<div class="mq"><div class="px"></div></div>
+<section class="about" id="about"><p class="px rv">WE DON'T BELONG TO THE FREQUENCY.<br><b>WE ARE THE INTERFERENCE.</b></p><p class="rv" style="margin-top:30px;opacity:.7">Independent underground music &amp; culture collective.</p></section>
+<section id="events"><h2 class="px" data-scr>// UPCOMING</h2><div class="grid" id="ev"></div></section>
+<section id="how"><h2 class="px" data-scr>// HOW TO ENTER</h2><div class="steps">
+<div class="step rv"><span class="px">01</span><h3 class="px">FIND THE SIGNAL</h3><p>Pick an event and check the lineup, date and venue.</p></div>
+<div class="step rv"><span class="px">02</span><h3 class="px">RESERVE</h3><p>Choose a ticket type and send your reservation request.</p></div>
+<div class="step rv"><span class="px">03</span><h3 class="px">GET CONFIRMED</h3><p>We confirm your booking with your reference code.</p></div></div></section>
+<section id="signal"><h2 class="px" data-scr>// THE SIGNAL</h2><div class="steps">
+<div class="step rv"><h3 class="px">UNDERGROUND</h3><p>Nights built outside the mainstream. Raw sound, low light, no polish.</p></div>
+<div class="step rv"><h3 class="px">NO CLEAN SIGNALS</h3><p>Distortion is the point. Static, noise and glitch are part of the music.</p></div>
+<div class="step rv"><h3 class="px">DIGITAL DECAY</h3><p>Pixels, CRT glow and dead screens. Beauty in what is broken.</p></div></div></section>
+<section id="contact"><h2 class="px" data-scr>// JOIN THE FREQUENCY</h2><div class="links" id="lk"></div></section>
+</main>
+<footer><div class="big px">DEAD PIXELS</div><p class="sm">© DEAD PIXELS — NO CLEAN SIGNALS</p></footer>
+<div id="md"></div><button class="btn" id="x">X CLOSE</button>
+<script>
+const D=window.DP||{},$=s=>document.querySelector(s),R=matchMedia('(prefers-reduced-motion:reduce)').matches,FINE=matchMedia('(pointer:fine)').matches,CUR=D.currency||'EGP';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(3,'0'),money=n=>Number(n)===0?'FREE':n+' '+CUR,fmt=d=>new Date(d).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'});
+// ticker
+$('.mq div').innerHTML=('PIXELS DIED FOR THIS // NO CLEAN SIGNALS // WE ARE THE INTERFERENCE // ').repeat(8);
+// wipe transition
+const W=$('#wipe');for(let i=0;i<96;i++)W.appendChild(document.createElement('i'));
+function wipe(cb){if(R){cb();return}[...W.children].forEach(e=>e.style.transitionDelay=(Math.random()*220|0)+'ms');W.classList.add('on');setTimeout(()=>{cb();W.classList.remove('on')},380)}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(!a)return;e.preventDefault();wipe(()=>{closeM();const t=$(a.dataset.go);t&&t.scrollIntoView()})});
+// loader
+{let p=0;const ld=$('#ld'),b=ld.querySelector('.bb i');const iv=setInterval(()=>{p+=R?100:10+Math.random()*18|0;b.style.width=Math.min(p,100)+'%';if(p>=100){clearInterval(iv);setTimeout(()=>wipe(()=>ld.remove()),100)}},110)}
+// logo pixel-assemble
+const lc=$('#lg'),lx=lc.getContext('2d'),im=new Image(),tm=document.createElement('canvas');
+function draw(px){const w=lc.width,h=lc.height;lx.clearRect(0,0,w,h);if(px<=1){lx.drawImage(im,0,0,w,h);return}tm.width=Math.ceil(w/px);tm.height=Math.ceil(h/px);tm.getContext('2d').drawImage(im,0,0,tm.width,tm.height);lx.imageSmoothingEnabled=false;lx.drawImage(tm,0,0,tm.width,tm.height,0,0,tm.width*px,tm.height*px)}
+im.onload=()=>{lc.width=600;lc.height=Math.round(600*im.height/im.width);if(R){draw(1);return}let i=0;const s=[48,32,24,16,12,8,6,4,3,2,1],iv=setInterval(()=>{draw(s[i++]);if(i>=s.length)clearInterval(iv)},170);let busy=0;
+ lc.onpointermove=()=>{if(busy||i<s.length)return;busy=1;draw(8);setTimeout(()=>{draw(3);setTimeout(()=>{draw(1);busy=0},120)},140)};
+ setInterval(()=>{if(i<s.length||busy)return;draw(1);const y=Math.random()*lc.height*.8,h=lc.height*.1,o=(Math.random()-.5)*50;lx.drawImage(lc,0,y,lc.width,h,o,y,lc.width,h);setTimeout(()=>draw(1),130)},3500)};im.src='logo.png';
+// particles (reacts to mouse)
+const fx=$('#fx'),fc=fx.getContext('2d');let mx=.5,my=.5;
+if(!R){const P=Array.from({length:90},()=>({x:Math.random(),y:Math.random(),s:[4,8,12][Math.random()*3|0],v:.0002+Math.random()*.0006,c:Math.random()<.2?'#550000':'#660099',d:.3+Math.random()}));
+ const rs=()=>{fx.width=innerWidth;fx.height=innerHeight};rs();addEventListener('resize',rs);addEventListener('pointermove',e=>{mx=e.clientX/innerWidth;my=e.clientY/innerHeight});
+ (function f(){fc.clearRect(0,0,fx.width,fx.height);for(const p of P){p.y-=p.v;if(p.y<-.05){p.y=1.02;p.x=Math.random()}fc.fillStyle=p.c;fc.fillRect(Math.round((p.x*fx.width+(.5-mx)*60*p.d)/4)*4,Math.round((p.y*fx.height+(.5-my)*60*p.d)/4)*4,p.s,p.s)}requestAnimationFrame(f)})()}
+// cursor + pixel trail
+if(FINE&&!R){const cu=$('#cu');let last=0;addEventListener('pointermove',e=>{const x=Math.round(e.clientX/8)*8,y=Math.round(e.clientY/8)*8;cu.style.transform=`translate(${x}px,${y}px)`;if(e.timeStamp-last<45)return;last=e.timeStamp;const s=document.createElement('div');s.className='sq';s.style.transform=`translate(${x}px,${y}px)`;document.body.appendChild(s);s.onanimationend=()=>s.remove()})}
+// scroll progress + CRT tear
+addEventListener('scroll',()=>{$('#bar').style.width=Math.round(scrollY/(document.body.scrollHeight-innerHeight)*20)*5+'%'},{passive:true});
+if(!R)setInterval(()=>{const t=$('#tl');t.style.top=(Math.random()*innerHeight|0)+'px';document.body.classList.add('tear');setTimeout(()=>document.body.classList.remove('tear'),160)},8000);
+// reveal + scramble
+const CH='#%&@01/<>*';function scr(el){if(R)return;const t=el.dataset.t||(el.dataset.t=el.textContent);let i=0;const iv=setInterval(()=>{el.textContent=t.split('').map((c,j)=>c===' '||j<i?c:CH[Math.random()*CH.length|0]).join('');if(i++>=t.length)clearInterval(iv)},35)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');if(e.target.hasAttribute('data-scr')){scr(e.target)}io.unobserve(e.target)}}),{threshold:.15});
+const watch=()=>document.querySelectorAll('.rv,[data-scr]').forEach(e=>io.observe(e));
+// contact
+{const L=[];if(D.instagram)L.push(['INSTAGRAM',D.instagram]);const m=s=>`mailto:${D.email}?subject=${encodeURIComponent(s)}`;if(D.email)L.push(['CONTACT',m('Contact')],['COLLABORATE',m('Collaboration')],['ARTIST SUBMISSIONS',m('Artist submission')]);
+ $('#lk').innerHTML=L.length?L.map(([t,h])=>`<a class="btn o rv" target="_blank" rel="noopener" href="${esc(h)}">${t}</a>`).join(''):'<p class="sm">Add instagram / email in config.js</p>'}
+// data
+let EV=[];const SB=D.supabaseUrl&&D.supabaseKey;
+const sb=(p,o={})=>fetch(D.supabaseUrl+'/rest/v1/'+p,{...o,headers:{apikey:D.supabaseKey,Authorization:'Bearer '+D.supabaseKey,'Content-Type':'application/json'}}).then(async r=>{const j=await r.json();if(!r.ok)throw new Error(j.message||'Error');return j});
+async function load(){try{if(SB){const [e,t]=await Promise.all([sb('events?select=*&published=eq.true&order=starts_at'),sb('ticket_availability?select=*&order=price')]);
+ EV=e.map(x=>({id:x.id,number:x.number,name:x.name,date:x.starts_at,venue:x.venue,city:x.location,poster:x.poster_url,genres:x.genres,lineup:x.lineup,desc:x.description,tickets:t.filter(k=>k.event_id===x.id).map(k=>({id:k.id,name:k.name,price:k.price,left:k.remaining}))}))}else EV=D.events||[]}catch(e){EV=[]}render()}
+function render(){const up=EV.filter(e=>new Date(e.date)>Date.now()-864e5);
+ $('#ev').innerHTML=up.length?up.map(e=>{const l=e.tickets.reduce((s,t)=>s+t.left,0),m=e.tickets.length?Math.min(...e.tickets.map(t=>t.price)):null;
+ return `<article class="card rv" data-i="${EV.indexOf(e)}"><div class="pst">${e.poster?`<img src="${esc(e.poster)}" alt="${esc(e.name)}">`:''}<span class="n px">#${pad(e.number)}</span>${e.tickets.length&&!l?'<div class="so px">SOLD OUT</div>':''}</div><div class="in"><h3 class="px">${esc(e.name)}</h3><p>${fmt(e.date)}<br>${esc(e.venue)}${e.city?', '+esc(e.city):''}</p><p class="g">${(e.genres||[]).map(esc).join(' / ')}</p><p class="sm">${(e.lineup||[]).map(esc).join(' • ')}</p><p style="display:flex;justify-content:space-between;margin-top:8px"><span>${m!==null?(m==0?'FREE':'FROM '+money(m)):''}</span><span>${e.tickets.length?l+' LEFT':''}</span></p></div></article>`}).join(''):'<div class="empty px" style="grid-column:1/-1"><span class="glitch" data-text="NO SIGNAL. NO EVENTS. YET.">NO SIGNAL. NO EVENTS. YET.</span></div>';watch()}
+$('#ev').onclick=e=>{const c=e.target.closest('.card');if(c)wipe(()=>openM(+c.dataset.i))};
+// modal + booking
+const M=$('#md');function closeM(){M.classList.remove('on');document.body.style.overflow=''}$('#x').onclick=()=>wipe(closeM);addEventListener('keydown',e=>e.key==='Escape'&&closeM());
+let CE=null,CT='';
+function openM(i){const e=CE=EV[i];CT='';M.innerHTML=`<div class="mi"><div class="pst">${e.poster?`<img src="${esc(e.poster)}" alt="">`:''}<span class="n px">#${pad(e.number)}</span></div><div><p class="px g" style="font-size:11px">EVENT #${pad(e.number)}</p><h2 class="px" style="color:var(--i);margin:12px 0;font-size:18px">${esc(e.name)}</h2><p>${fmt(e.date)}<br>${esc(e.venue)}${e.city?', '+esc(e.city):''}</p><p class="g">${(e.genres||[]).map(esc).join(' / ')}</p><p>${(e.lineup||[]).map(esc).join(' • ')}</p><p class="sm" style="margin:10px 0;white-space:pre-line">${esc(e.desc)}</p><div id="fm"><p class="px" style="font-size:11px;margin-top:14px">TICKETS</p>${e.tickets.map(t=>`<div class="tk" data-t="${esc(t.id)}" ${t.left<1?'style="opacity:.4"':''}><span>${esc(t.name)}</span><span>${money(t.price)} · ${t.left<1?'SOLD OUT':t.left+' left'}</span></div>`).join('')||'<p>No tickets yet.</p>'}<p class="er" id="e_t"></p>
+<input class="field" id="f_n" placeholder="Full name"><p class="er" id="e_n"></p><input class="field" id="f_e" type="email" placeholder="Email"><p class="er" id="e_e"></p><input class="field" id="f_p" type="tel" placeholder="Phone"><p class="er" id="e_p"></p><input class="field" id="f_i" placeholder="Instagram username (optional)"><input class="field" id="f_q" type="number" min="1" max="10" value="1"><p class="er" id="e_q"></p><textarea class="field" id="f_o" rows="2" placeholder="Anything else? (optional)"></textarea><p class="er" id="e_f"></p><button class="btn" id="go" style="width:100%;margin-top:12px">RESERVE</button></div></div></div>`;
+ M.classList.add('on');document.body.style.overflow='hidden';M.scrollTop=0}
+M.onclick=e=>{const t=e.target.closest('.tk');if(t&&t.style.opacity!=='0.4'){CT=t.dataset.t;M.querySelectorAll('.tk').forEach(x=>x.classList.toggle('sel',x===t))}if(e.target.id==='go')book()};
+async function book(){const v=id=>$('#'+id).value.trim(),er={},t=CE.tickets.find(x=>x.id===CT),q=+v('f_q');
+ if(v('f_n').length<2)er.n='Name required';if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('f_e')))er.e='Valid email required';if(v('f_p').replace(/\D/g,'').length<7)er.p='Valid phone required';
+ if(!t)er.t='Pick a ticket type';else if(!(q>=1&&q<=Math.min(10,t.left)))er.q='1 to '+Math.min(10,t.left)+' tickets';
+ ['t','n','e','p','q','f'].forEach(k=>$('#e_'+k).textContent=er[k]?'! '+er[k]:'');if(Object.keys(er).length)return;
+ const ig=v('f_i').replace(/^@/,''),btn=$('#go');btn.disabled=true;
+ if(SB){try{const ref=await sb('rpc/book_tickets',{method:'POST',body:JSON.stringify({p_ticket_type:CT,p_name:v('f_n'),p_email:v('f_e'),p_phone:v('f_p'),p_instagram:ig,p_qty:q,p_notes:v('f_o')})});done(ref,'RESERVATION RECEIVED','Save this code. We will contact you to confirm.')}catch(e){$('#e_f').textContent='! '+e.message;btn.disabled=false;load()}return}
+ const ref='DP-'+Math.random().toString(36).slice(2,8).toUpperCase(),msg=`DEAD PIXELS reservation ${ref}\nEvent: #${pad(CE.number)} ${CE.name}\nTicket: ${t.name} x${q}\nName: ${v('f_n')}\nEmail: ${v('f_e')}\nPhone: ${v('f_p')}\nInstagram: ${ig}\nNotes: ${v('f_o')}`;
+ const link=D.whatsapp?`https://wa.me/${D.whatsapp}?text=${encodeURIComponent(msg)}`:D.email?`mailto:${D.email}?subject=${encodeURIComponent('Reservation '+ref)}&body=${encodeURIComponent(msg)}`:'';
+ if(!link){$('#e_f').textContent='! Booking contact is not configured (config.js).';btn.disabled=false;return}
+ done(ref,'ALMOST THERE','Press the button below and SEND the message — the request is only received once you send it.',link)}
+function done(ref,t,s,link){$('#fm').innerHTML=`<div style="border:3px solid var(--g);padding:20px;text-align:center"><p class="px" style="font-size:11px">${t}</p><p class="px" style="font-size:22px;margin:16px 0">${esc(ref)}</p><p>${s}</p>${link?`<a class="btn" style="margin-top:14px" target="_blank" rel="noopener" href="${esc(link)}">SEND REQUEST</a>`:''}</div>`}
+watch();load();
+</script></body></html>
