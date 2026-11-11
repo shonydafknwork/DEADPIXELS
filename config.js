@@ -3,7 +3,7 @@ window.DP = {
   currency: "EGP",
   whatsapp: "",   // رقم واتساب بالأرقام فقط مع كود الدولة، مثال: 201000000000
   email: "",      // إيميل الكوليكتيف
-  instagram: "",  // رابط الإنستجرام الكامل
+  instagram: "",  https://www.instagram.com/wearedeadpixels?rpxt=ZDF6bmt4bzdib2l6&utm_source=qr
   supabaseUrl: "",  // اختياري: لو عايز قاعدة بيانات حقيقية (شوف README)
   supabaseKey: "",  // اختياري: anon key فقط
   // الأحداث: اتركها فاضية = تظهر رسالة NO SIGNAL. شيل // وعدّل المثال لإضافة حدث
